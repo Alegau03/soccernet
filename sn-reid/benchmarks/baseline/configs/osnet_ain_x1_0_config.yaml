@@ -1,0 +1,47 @@
+model:
+  name: 'osnet_ain_x1_0'
+  pretrained: True
+
+data:
+  type: 'image'
+  root: 'datasets'
+  height: 384
+  width: 192
+  workers: 4
+  sources: ['soccernetv3']
+  targets: ['soccernetv3', 'soccernetv3_test', 'soccernetv3_challenge']
+  save_dir: 'log/osnet_ain_x1_0'
+  transforms: ['random_flip', 'random_erase']
+
+soccernetv3:
+  training_subset: 1.0
+
+sampler:
+  train_sampler: RandomIdentitySampler
+  train_sampler_t: RandomIdentitySampler
+  num_instances: 4
+
+loss:
+  name: 'triplet'
+  softmax:
+    label_smooth: True
+  triplet:
+    margin: 0.3
+    weight_t: 0.5
+    weight_x: 0.5
+
+train:
+  batch_size: 32
+  print_freq: 10
+  max_epoch: 60
+  optim: 'adam'
+  lr: 0.0003
+
+test:
+  ranks: [1]
+  export_ranking_results: True
+  eval_freq: 1
+  dist_metric: 'cosine'
+  normalize_feature: True
+  rerank: False
+use_gpu: True

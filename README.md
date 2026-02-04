@@ -57,7 +57,6 @@ pip install SoccerNet
 python -c "from SoccerNet.Downloader import SoccerNetDownloader; SoccerNetDownloader(LocalDirectory='datasets/soccernetv3').downloadDataTask(task='reid', split=['train', 'valid', 'test', 'challenge'])"
 ```
 
-> **Note**: This will download ~6GB of data. Ensure you have stable internet.
 
 ---
 
@@ -82,6 +81,17 @@ python benchmarks/baseline/main.py \
     model.name resnet50 \
     model.pretrained True
 ```
+
+**Example: Training DINOv2 (Vision Transformer)**
+We provide a standalone script for DINOv2 fine-tuning with LoRA, optimized for consumer GPUs.
+```bash
+python benchmarks/dino/train.py \
+    --root datasets \
+    --lr 0.0005 \
+    --batch-size 64 \
+    --gpu-id 0
+```
+
 
 ---
 

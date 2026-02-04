@@ -9,27 +9,27 @@ It features a unified framework for training state-of-the-art models (ResNet-50,
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 The repository is organized to separate the core library, training benchmarks, and evaluation tools:
 
 ```
 soccernet/sn-reid/
-├── torchreid/              # 🧠 Custom Deep Learning Library (Core ReID logic)
-├── benchmarks/             # 🏋️ Training Scripts & Baseline Configs
+├── torchreid/              # Custom Deep Learning Library (Core ReID logic)
+├── benchmarks/             # Training Scripts & Baseline Configs
 │   └── baseline/
 │       ├── main.py         # Main training entry point
 │       └── configs/        # Hyperparameter configurations (YAML)
-├── experiment.py           # 📊 Evaluation Suite (Single Models, Ensembles, Re-ranking)
-├── gradio_demo.py          # 🎨 Interactive Demonstration Interface
-├── generate_charts.py      # 📈 Report Figure Generator
-├── final_models/           # 💾 Directory for Saved Model Checkpoints
-└── datasets/               # 🗄️ Dataset Directory (SoccerNet-v3)
+├── experiment.py           # Evaluation Suite (Single Models, Ensembles, Re-ranking)
+├── gradio_demo.py          # Interactive Demonstration Interface
+├── generate_charts.py      # Report Figure Generator
+├── final_models/           # Directory for Saved Model Checkpoints
+└── datasets/               # Dataset Directory (SoccerNet-v3)
 ```
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Installation
 
@@ -61,9 +61,9 @@ python -c "from SoccerNet.Downloader import SoccerNetDownloader; SoccerNetDownlo
 
 ---
 
-## 🛠️ Workflows
+##  Workflows
 
-### 🏃 Training Models
+###  Training Models
 
 Train specific architectures using the configuration files in `benchmarks/baseline/configs/`.
 
@@ -85,7 +85,7 @@ python benchmarks/baseline/main.py \
 
 ---
 
-### 🧪 Evaluation & Experiments
+###  Evaluation & Experiments
 
 Use `experiment.py` to evaluate trained models. This script supports **Ensemble** methods and **Re-Ranking** strategies.
 
@@ -103,7 +103,7 @@ python experiment.py \
 
 ---
 
-### 🎨 Interactive Visualization
+###  Interactive Visualization
 
 Launch the **Gradio Dashboard** to explore the model's performance visually.
 
@@ -112,10 +112,10 @@ python gradio_demo.py
 ```
 
 **Features:**
-- 🌍 **Web Interface**: Opens at `http://localhost:7860`
-- 📷 **Query Selection**: Dropdown with "Smart Filtering" to find interesting cases
-- 🔍 **Visual Results**: Instantly see Query vs. Top-10 Gallery matches
-- 🟢/🔴 **Feedback**: Green borders for correct matches, Red for incorrect
+-  **Web Interface**: Opens at `http://localhost:7860`
+-  **Query Selection**: Dropdown with "Smart Filtering" to find interesting cases
+-  **Visual Results**: Instantly see Query vs. Top-10 Gallery matches
+-  **Feedback**: Green borders for correct matches, Red for incorrect
 
 To save visualization examples directly to disk without opening the web UI:
 ```bash
@@ -124,7 +124,7 @@ python gradio_demo.py --save-samples 10 --no-gradio
 
 ---
 
-### 📈 Report Generation
+###  Report Generation
 
 Generate the charts used in our final report (Bar Plots, CMC Curves):
 
@@ -135,9 +135,9 @@ This will create high-quality PNG figures in the `figures/` directory.
 
 ---
 
-## 👥 Authors
+##  Authors
+- **Crea Michelangelo 1993024**
+- **Gautieri Alessandro 2041850**
 
-- **Alessandro Gautieri**
-- **Michelangelo Crea**
 
 *Sapienza University of Rome - Computer Vision Project 2024/2025*

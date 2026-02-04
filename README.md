@@ -140,4 +140,4 @@ This will create high-quality PNG figures in the `figures/` directory.
 - **Gautieri Alessandro 2041850**
 
 
-*Sapienza University of Rome - Computer Vision Project 2024/2025*
+*Sapienza University of Rome - Computer Vision Project 2025/2026*

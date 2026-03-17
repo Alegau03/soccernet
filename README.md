@@ -4,7 +4,7 @@ This repository contains the implementation and evaluation of various person re-
 
 ## 🚀 Project Overview
 
-The project explores person re-identification in broadcast soccer footage, treating it as an **Open-Set Identification** problem. We implement several state-of-the-art architectures and evaluate them using unconventional biometric metrics like DIR (Detect and Identification Rate) and SRR (System Response Reliability).
+The project explores person re-identification in broadcast soccer footage, treating it as an **Closed-Set Identification** problem. We implement several state-of-the-art architectures and evaluate them using unconventional biometric metrics like DIR (Detect and Identification Rate) and SRR (System Response Reliability).
 
 ### Key Features
 - **Multi-Model Pipeline**: Implementation of DINOv2 (ViT), ResNet-50-IBN (CNN), and OsNet-AIN (Optimized Re-ID).

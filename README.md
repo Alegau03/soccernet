@@ -1,153 +1,60 @@
-# ⚽ SoccerNet Re-Identification Challenge
+# SoccerNet Person Re-Identification - Biometric Integration
 
-[![SoccerNet](https://img.shields.io/badge/SoccerNet-ReID-green.svg)](https://www.soccer-net.org/)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-orange.svg)](https://pytorch.org/)
+This repository contains the implementation and evaluation of various person re-identification (Re-ID) strategies on the [SoccerNet Re-ID v3 dataset](https://www.soccer-net.org/), with a specific focus on **Biometric System Analysis**.
 
-This repository contains the official codebase for our **SoccerNet Re-Identification (ReID)** project.
-It features a unified framework for training state-of-the-art models (ResNet-50, OsNet-AIN, DINOv2), evaluating ensembles, and visualizing results with an interactive dashboard.
+## 🚀 Project Overview
 
----
+The project explores person re-identification in broadcast soccer footage, treating it as an **Open-Set Identification** problem. We implement several state-of-the-art architectures and evaluate them using unconventional biometric metrics like DIR (Detect and Identification Rate) and SRR (System Response Reliability).
 
-##  Project Structure
+### Key Features
+- **Multi-Model Pipeline**: Implementation of DINOv2 (ViT), ResNet-50-IBN (CNN), and OsNet-AIN (Optimized Re-ID).
+- **Advanced Ensembles**: Feature concatenation, Distance averaging, and Rank-level fusion (Borda Count).
+- **Biometric Calibration**: Calculation of EER (Equal Error Rate), DET curves, and Margin of Error $M(t)$.
+- **Qualitative Analysis**: Automated identification of "Goats" (challenging queries) using automated SRR ranking and Doddington Zoo taxonomy.
+- **Standalone Biometric Tool**: A dedicated script for post-processing distance matrices to extract biometric insights.
 
-The repository is organized to separate the core library, training benchmarks, and evaluation tools:
+## 📊 Results Summary
 
-```
-soccernet/sn-reid/
-├── torchreid/              # Custom Deep Learning Library (Core ReID logic)
-├── benchmarks/             # Training Scripts & Baseline Configs
-│   └── baseline/
-│       ├── main.py         # Main training entry point
-│       └── configs/        # Hyperparameter configurations (YAML)
-├── experiment.py           # Evaluation Suite (Single Models, Ensembles, Re-ranking)
-├── gradio_demo.py          # Interactive Demonstration Interface
-├── generate_charts.py      # Report Figure Generator
-├── final_models/           # Directory for Saved Model Checkpoints
-└── datasets/               # Dataset Directory (SoccerNet-v3)
-```
+The following table summarizes our findings on the SoccerNet v3 Validation Set:
 
----
+| Method | mAP | Rank-1 | SRR | EER | DIR |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **OsNet-AIN (Best Single)** | **56.83%** | **43.64%** | **0.0081** | **7.48%** | **8.67%** |
+| Weighted Ensemble | 55.48% | 43.52% | N/A | 7.94% | **11.90%** |
+| Re-Rank Aggressive | 55.08% | 43.08% | 0.0830 | 8.37% | 11.71% |
 
-##  Getting Started
+## 🛠 Installation & Usage
 
-### 1. Installation
+### Prerequisites
+- Python 3.8+
+- PyTorch 1.10+
+- `numpy`, `pillow`, `scikit-learn`
+- `torchreid` (included in `sn-reid/`)
 
-Clone the repository and install the dependencies:
-
+### Evaluation
+To run the full evaluation pipeline:
 ```bash
-cd sn-reid
-
-# 1. Install Python dependencies
-pip install -r requirements.txt
-
-# 2. Install the TorchReID library in development mode
-python setup.py develop
+python sn-reid/experiment.py \
+  --models sn-reid/final_models/RESNET.tar sn-reid/final_models/DINO.tar sn-reid/final_models/OsNet.tar \
+  --archs resnet50_fc512 dinov2_vits14_lora osnet_ain_x1_0 \
+  --save-dist
 ```
 
-### 2. Dataset Download
-
-We use the **SoccerNet-v3** dataset. You can download the ReID split using the official SoccerNet downloader:
-
+### Biometric Analysis Tool
+To calculate DIR and Margin metrics from a saved distance matrix:
 ```bash
-# Install the SoccerNet API
-pip install SoccerNet
-
-# Run this python one-liner to download train, valid, test, and challenge splits
-python -c "from SoccerNet.Downloader import SoccerNetDownloader; SoccerNetDownloader(LocalDirectory='datasets/soccernetv3').downloadDataTask(task='reid', split=['train', 'valid', 'test', 'challenge'])"
+python sn-reid/calculate_metrics_standalone.py \
+  --dist dist_matrix_osnet_ain_x1_0.npy \
+  --pids_q pids_q.npy \
+  --pids_g pids_g.npy
 ```
 
+## 📄 Documentation
+A comprehensive technical report [report.tex](report.tex) is available, covering:
+- **Soft Biometrics Analysis**: Evaluating re-identification against the 5 fundamental biometric requirements.
+- **Doddington Zoo Classification**: Characterizing Lambs, Wolves, and Goats in the dataset.
+- **Tactical Biometrics**: Perspectives on Spoofing (identical twins) and Camouflage (protective masks) in sports.
+- **Template Updating**: Proposals for combating intra-match biometric aging.
 
----
-
-##  Workflows
-
-###  Training Models
-
-Train specific architectures using the configuration files in `benchmarks/baseline/configs/`.
-
-**Example: Training OsNet-AIN (Best Model)**
-```bash
-python benchmarks/baseline/main.py \
-    --config-file benchmarks/baseline/configs/osnet_ain_x1_0_config.yaml \
-    --root datasets
-```
-
-**Example: Training ResNet-50**
-```bash
-python benchmarks/baseline/main.py \
-    --config-file benchmarks/baseline/configs/baseline_config.yaml \
-    --root datasets \
-    model.name resnet50 \
-    model.pretrained True
-```
-
-**Example: Training DINOv2 (Vision Transformer)**
-We provide a standalone script for DINOv2 fine-tuning with LoRA, optimized for consumer GPUs.
-```bash
-python benchmarks/dino/train.py \
-    --root datasets \
-    --lr 0.0005 \
-    --batch-size 64 \
-    --gpu-id 0
-```
-
-
----
-
-###  Evaluation & Experiments
-
-Use `experiment.py` to evaluate trained models. This script supports **Ensemble** methods and **Re-Ranking** strategies.
-
-**Evaluate a Single Model:**
-```bash
-python experiment.py --models final_models/OsNet.tar --archs osnet_ain_x1_0
-```
-
-**Evaluate an Ensemble (e.g., OsNet + ResNet):**
-```bash
-python experiment.py \
-    --models final_models/OsNet.tar final_models/ResNet.pth \
-    --archs osnet_ain_x1_0 resnet50_fc512
-```
-
----
-
-###  Interactive Visualization
-
-Launch the **Gradio Dashboard** to explore the model's performance visually.
-
-```bash
-python gradio_demo.py
-```
-
-**Features:**
--  **Web Interface**: Opens at `http://localhost:7860`
--  **Query Selection**: Dropdown with "Smart Filtering" to find interesting cases
--  **Visual Results**: Instantly see Query vs. Top-10 Gallery matches
--  **Feedback**: Green borders for correct matches, Red for incorrect
-
-To save visualization examples directly to disk without opening the web UI:
-```bash
-python gradio_demo.py --save-samples 10 --no-gradio
-```
-
----
-
-###  Report Generation
-
-Generate the charts used in our final report (Bar Plots, CMC Curves):
-
-```bash
-python generate_charts.py
-```
-This will create high-quality PNG figures in the `figures/` directory.
-
----
-
-##  Authors
-- **Crea Michelangelo 1993024**
-- **Gautieri Alessandro 2041850**
-
-
-*Sapienza University of Rome - Computer Vision Project 2025/2026*
+## 👥 Contributors
+- Alessandro Gautieri

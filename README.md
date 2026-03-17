@@ -50,7 +50,7 @@ python sn-reid/calculate_metrics_standalone.py \
 ```
 
 ## 📄 Documentation
-A comprehensive technical report [report.tex](report.tex) is available, covering:
+A comprehensive technical report [Report_BiometricSystems.pdf](Report_BiometricSystems.pdf) is available, covering:
 - **Soft Biometrics Analysis**: Evaluating re-identification against the 5 fundamental biometric requirements.
 - **Doddington Zoo Classification**: Characterizing Lambs, Wolves, and Goats in the dataset.
 - **Tactical Biometrics**: Perspectives on Spoofing (identical twins) and Camouflage (protective masks) in sports.
@@ -58,3 +58,4 @@ A comprehensive technical report [report.tex](report.tex) is available, covering
 
 ## 👥 Contributors
 - Alessandro Gautieri
+- Michelangelo Crea

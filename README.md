@@ -17,11 +17,11 @@ The project explores person re-identification in broadcast soccer footage, treat
 
 The following table summarizes our findings on the SoccerNet v3 Validation Set:
 
-| Method | mAP | Rank-1 | SRR | EER | DIR |
+| Method | mAP | Rank-1 | SRR | EER | 
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **OsNet-AIN (Best Single)** | **56.83%** | **43.64%** | **0.0081** | **7.48%** | **8.67%** |
-| Weighted Ensemble | 55.48% | 43.52% | N/A | 7.94% | **11.90%** |
-| Re-Rank Aggressive | 55.08% | 43.08% | 0.0830 | 8.37% | 11.71% |
+| **OsNet-AIN (Best Single)** | **56.83%** | **43.64%** | **0.0081** | **7.48%** |
+| Weighted Ensemble | 55.48% | 43.52% | N/A | 7.94% |
+| Re-Rank Aggressive | 55.08% | 43.08% | 0.0830 | 8.37% |
 
 ##  Installation & Usage
 
